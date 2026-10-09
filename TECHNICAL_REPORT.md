@@ -14,7 +14,7 @@
   * **Mã sinh viên:** 23IT117
   * **Lớp:** 23JIT (Khoa Khoa học Máy tính — Đại học CNTT & Truyền thông Việt - Hàn, VKU)
   * **Vai trò:** Full-stack Mobile Developer (Flutter Core, Google ML Kit OCR integration, Vietnamese Regex Heuristic Engine, Riverpod 2 State, SQLite Persistence & Custom Canvas Graphics) — Đóng góp: 100%
-* **🔗 Live Demo URL:** [https://vku-expense-ocr-thhuong.vercel.app](https://vku-expense-ocr-thhuong.vercel.app) *(Kèm bản Web App tại `build/web` và mô phỏng tương tác tại `web_demo/index.html`)*
+* **🔗 Live Demo URL:** [https://vku-expense-ocr-thhuong.vercel.app](https://vku-expense-ocr-thhuong.vercel.app) *(Kèm bản Web App tại `dist/` và mô phỏng tương tác tại `web_demo/index.html`)*
 * **💻 GitHub Repository:** [https://github.com/huongverse05/vku-expense-ocr](https://github.com/huongverse05/vku-expense-ocr)
 * **🎥 Video Demo (YouTube/Drive):** [https://youtu.be/vku-expense-ocr-demo-23IT117](https://youtu.be/vku-expense-ocr-demo-23IT117)
 

@@ -109,18 +109,15 @@ vku-expense-ocr/
 
 ## 🌐 Hướng Dẫn Đẩy Lên Link Live Demo (Vercel, Netlify, Cloudflare, GitHub Pages)
 
-Dự án đã được biên dịch sẵn bản production web tại thư mục `build/web`. Bạn có thể triển khai lên bất kỳ nền tảng nào theo các cách dưới đây:
+Dự án đã được đóng gói sẵn bản web hoàn chỉnh tại thư mục `dist/` (tối ưu hóa hiển thị responsive trên cả điện thoại và máy tính). Thư mục này được theo dõi trực tiếp trong git, giúp Vercel và Netlify triển khai tức thì mà không cần cài Flutter SDK trên build server.
 
 ### Cách 1: Triển Khai Lên Vercel (Khuyên dùng — Cực nhanh)
-File [`vercel.json`](file:///c:/Users/THANH%20HUONG/.gemini/antigravity-ide/scratch/vku-expense-ocr/vercel.json) đã được cấu hình trỏ thẳng vào thư mục `build/web`.
+File [`vercel.json`](file:///c:/Users/THANH%20HUONG/.gemini/antigravity-ide/scratch/vku-expense-ocr/vercel.json) đã được cấu hình trỏ thẳng vào thư mục `dist`.
 1. Đẩy code lên GitHub cá nhân của bạn:
    ```bash
-   git init
-   git add .
-   git commit -m "feat: complete vku expense ocr project"
-   git branch -M main
-   git remote add origin https://github.com/<tai-khoan-cua-ban>/vku-expense-ocr.git
-   git push -u origin main
+   git add dist/ vercel.json netlify.toml
+   git commit -m "fix: deploy web bundle to dist directory for Vercel"
+   git push origin main
    ```
 2. Đăng nhập vào [vercel.com](https://vercel.com) ➔ Bấm **Add New** ➔ **Project** ➔ Chọn repo `vku-expense-ocr`.
 3. Vercel sẽ tự động đọc file `vercel.json` và cấp cho bạn một link Live Demo dạng:
@@ -135,7 +132,7 @@ Workflow [`.github/workflows/deploy.yml`](file:///c:/Users/THANH%20HUONG/.gemini
 
 ### Cách 3: Kéo Thả Trực Tiếp Lên Netlify hoặc Cloudflare Pages (Không cần gõ lệnh)
 1. Đăng nhập vào [app.netlify.com/drop](https://app.netlify.com/drop) hoặc Cloudflare Pages.
-2. Kéo thả trực tiếp thư mục `build/web` vào trang web.
+2. Kéo thả trực tiếp thư mục `dist` vào trang web.
 3. Trong vòng 10 giây, bạn sẽ nhận được một đường link Live Demo có thể truy cập trên cả máy tính lẫn điện thoại!
 
 ---
