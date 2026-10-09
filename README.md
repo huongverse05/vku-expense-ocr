@@ -58,12 +58,31 @@ Sơ đồ luồng xử lý từ Camera đến biểu đồ trực quan:
 
 ---
 
+## 📸 Hình Ảnh Giao Diện Thực Tế (Empirical Screenshots)
+
+| 1. Quét Hóa Đơn (OCR HUD) | 2. Đối Soát & Sửa Lỗi | 3. Dashboard Biểu Đồ Donut |
+| :---: | :---: | :---: |
+| <img src="assets/images/01_scan_receipt.jpg" width="220" alt="Quét Hóa Đơn" /> | <img src="assets/images/02_review_verification.jpg" width="220" alt="Đối Soát Hóa Đơn" /> | <img src="assets/images/03_dashboard_donut_chart.jpg" width="220" alt="Dashboard Donut Chart" /> |
+| *Khung ngắm Camera & Mẫu test* | *Xác thực OCR (Độ tin cậy 92%)* | *Donut Chart (CustomPainter)* |
+
+<br>
+
+| 4. Biểu Đồ Cột 7 Ngày | 5. Lịch Sử & Bộ Lọc SQLite | 6. Giao Diện Dark Mode |
+| :---: | :---: | :---: |
+| <img src="assets/images/04_weekly_bar_chart.jpg" width="220" alt="Biểu Đồ Cột 7 Ngày" /> | <img src="assets/images/05_transaction_history.jpg" width="220" alt="Lịch Sử Chi Tiêu" /> | <img src="assets/images/06_dark_mode_theme.jpg" width="220" alt="Giao Diện Dark Mode" /> |
+| *Weekly Bar Chart & Giao dịch gần đây* | *Tìm kiếm & Lọc danh mục chi tiêu* | *Chế độ tối (Dark Mode Theme)* |
+
+---
+
 ## 📁 Cấu Trúc Thư Mục Dự Án
 
 ```text
 vku-expense-ocr/
 ├── .github/
 │   └── workflows/deploy.yml           # CI/CD tự động test và deploy lên GitHub Pages
+├── assets/
+│   ├── images/                        # Ảnh chụp màn hình giao diện thực tế
+│   └── sample_receipts/               # Mẫu hóa đơn thực nghiệm bóc tách OCR
 ├── build/
 │   └── web/                           # Bản build Flutter Web đã biên dịch sẵn sàng deploy
 ├── lib/
