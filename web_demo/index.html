@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VKU Expense OCR — Mini-Project 3 Demo (Flutter Mobile Simulation)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-navy: #1E3A5F;
+      --electric-blue: #2563EB;
+      --accent-gold: #F59E0B;
+      --alert-crimson: #DC2626;
+      --emerald-green: #10B981;
+      --bg-light: #F1F5F9;
+      --card-light: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+    }
+
+    [data-theme="dark"] {
+      --primary-navy: #0F172A;
+      --electric-blue: #3B82F6;
+      --bg-light: #0B1120;
+      --card-light: #1E293B;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: #0B132B;
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    /* Device Mockup Shell */
+    .device-frame {
+      width: 100%;
+      max-width: 412px;
+      height: 860px;
+      background: var(--bg-light);
+      border-radius: 40px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 10px #1E293B;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 38px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--primary-navy);
+      color: #FFFFFF;
+      z-index: 10;
+    }
+
+    .status-bar .notch {
+      width: 110px;
+      height: 18px;
+      background: #0B132B;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    /* App Bar */
+    .app-header {
+      background: var(--primary-navy);
+      color: #FFFFFF;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      z-index: 9;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .brand-text h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      color: #93C5FD;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Main Content Area */
+    .screen-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      position: relative;
+    }
+
+    /* Hero Total Card */
+    .hero-card {
+      background: linear-gradient(135deg, #1E3A5F 0%, #1E40AF 100%);
+      border-radius: 20px;
+      padding: 18px;
+      color: #fff;
+      box-shadow: 0 10px 25px -5px rgba(30, 58, 95, 0.4);
+      margin-bottom: 16px;
+    }
+
+    .hero-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .hero-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #93C5FD;
+      letter-spacing: 0.8px;
+    }
+
+    .hero-chip {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .hero-amount {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .hero-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.18);
+      margin-bottom: 10px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .metric-col p:first-child {
+      font-size: 9px;
+      color: #93C5FD;
+      margin-bottom: 2px;
+    }
+
+    .metric-col p:last-child {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Main CTA Scan Button */
+    .scan-cta-btn {
+      width: 100%;
+      background: var(--electric-blue);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.5);
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .scan-cta-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Card Panels */
+    .app-card {
+      background: var(--card-light);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Chart Containers */
+    .chart-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    canvas {
+      max-width: 100%;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Transaction Card Item */
+    .expense-item-card {
+      background: var(--card-light);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .expense-item-card:hover {
+      border-color: var(--electric-blue);
+      transform: translateY(-1px);
+    }
+
+    .cat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .expense-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .expense-merchant {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expense-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ocr-pill {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--electric-blue);
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .expense-cost {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .cost-num {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary-navy);
+    }
+
+    [data-theme="dark"] .cost-num {
+      color: #93C5FD;
+    }
+
+    .cost-cat {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      height: 64px;
+      background: var(--card-light);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .nav-tab.active {
+      color: var(--electric-blue);
+      background: rgba(37, 99, 235, 0.1);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+    }
+
+    /* Floating Modal / Screens */
+    .screen-overlay {
+      position: absolute;
+      top: 38px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-light);
+      z-index: 50;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .screen-overlay.open {
+      display: flex;
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-nav {
+      background: var(--primary-navy);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Scan Viewfinder */
+    .viewfinder-card {
+      height: 220px;
+      background: var(--card-light);
+      border: 2px dashed var(--electric-blue);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .scan-beam {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #2563EB, #F59E0B, transparent);
+      box-shadow: 0 0 10px #2563EB;
+      animation: scanSweep 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes scanSweep {
+      0% { top: 15%; }
+      100% { top: 85%; }
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--card-light);
+      color: var(--text-main);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--electric-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-navy);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-cancel {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .raw-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #0F172A;
+      color: #94A3B8;
+      padding: 12px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="device-frame" id="appFrame">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>12:45</span>
+      <div class="notch"></div>
+      <span>100% 🔋</span>
+    </div>
+
+    <!-- App Bar -->
+    <div class="app-header">
+      <div class="brand-title">
+        <div class="brand-badge">🧾</div>
+        <div class="brand-text">
+          <h1>VKU Expense OCR</h1>
+          <p>Từ Thị Thanh Hương — 23IT117 (23JIT)</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" title="Chuyển chế độ Sáng / Tối">🌓</button>
+        <button class="icon-btn" id="refreshBtn" title="Làm mới">🔄</button>
+      </div>
+    </div>
+
+    <!-- Main Screens Container -->
+    <div class="screen-content" id="mainScreen">
+
+      <!-- Tab 1: Dashboard -->
+      <div id="tabDashboard">
+        <!-- Hero Card -->
+        <div class="hero-card">
+          <div class="hero-label-row">
+            <span class="hero-label">TỔNG CHI TIÊU THÁNG 10/2026</span>
+            <span class="hero-chip" id="receiptCountChip">6 hóa đơn</span>
+          </div>
+          <div class="hero-amount" id="heroTotalDisplay">628.000 đ</div>
+          <div class="hero-divider"></div>
+          <div class="hero-metrics">
+            <div class="metric-col">
+              <p>On-Device OCR</p>
+              <p>ML Kit + Regex</p>
+            </div>
+            <div class="metric-col">
+              <p>Cơ sở dữ liệu</p>
+              <p>SQLite sqflite</p>
+            </div>
+            <div class="metric-col">
+              <p>State Flow</p>
+              <p>Riverpod 2</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scan CTA -->
+        <button class="scan-cta-btn" onclick="openScanModal()">
+          <span>📷</span>
+          <span>QUÉT HÓA ĐƠN MỚI (ON-DEVICE OCR)</span>
+        </button>
+
+        <!-- Donut Chart Card -->
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🍩</span> Cơ Cấu Chi Tiêu (CustomPainter)
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="donutCanvas" width="220" height="220"></canvas>
+            <div class="chart-legend" id="donutLegend"></div>
+          </div>
+        </div>
+
+        <!-- Weekly Bar Chart Card -->
+        <div class="app-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📊</span> Chi Tiêu 7 Ngày Qua (Custom Canvas)
+            </div>
+          </div>
+          <canvas id="barCanvas" width="340" height="160"></canvas>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="card-header" style="margin-top: 10px;">
+          <div class="card-title">
+            <span>🕒</span> Giao Dịch Gần Đây (SQLite)
+          </div>
+        </div>
+        <div id="recentTransactionsList"></div>
+      </div>
+
+      <!-- Tab 2: Expenses List -->
+      <div id="tabHistory" style="display: none;">
+        <div class="form-group">
+          <input type="text" class="form-input" id="searchInput" placeholder="🔍 Tìm kiếm cửa hàng, ghi chú..." oninput="filterExpenses()">
+        </div>
+        <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;" id="catFilterChips">
+          <!-- Filter chips dynamically generated -->
+        </div>
+        <div id="fullTransactionsList"></div>
+      </div>
+
+      <!-- Tab 3: Analytics Deep-Dive -->
+      <div id="tabAnalytics" style="display: none;">
+        <div class="app-card" style="border-left: 4px solid var(--electric-blue);">
+          <div style="font-weight: 700; font-size: 13px; color: var(--electric-blue);">ĐỒ HỌA PHẦN CỨNG IMPELLER</div>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            Toàn bộ biểu đồ Donut và Weekly Bar Chart được vẽ trực tiếp qua 2D Canvas API (CustomPainter) theo đúng tiêu chí 2.5đ của Thầy Tuấn.
+          </p>
+        </div>
+        <div class="app-card">
+          <div class="card-title" style="margin-bottom: 12px;">🏆 Bảng Phân Bổ Ngân Sách</div>
+          <div id="rankingList"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scan Modal Screen -->
+    <div class="screen-overlay" id="scanModal">
+      <div class="modal-nav">
+        <button class="back-btn" onclick="closeScanModal()">←</button>
+        <span>Quét Hóa Đơn (Google ML Kit)</span>
+      </div>
+      <div style="padding: 16px; overflow-y: auto;">
+        <div class="viewfinder-card">
+          <div class="scan-beam"></div>
+          <div style="font-size: 40px; margin-bottom: 10px;">🧾</div>
+          <div style="font-weight: 700; font-size: 14px;">Đặt hóa đơn vào trong khung</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+            AI nhận dạng văn bản On-Device không cần Internet
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+          <button class="scan-cta-btn" style="flex: 1; margin: 0;" onclick="simulateCapture('camera')">
+            <span>📸 Chụp Camera</span>
+          </button>
+          <button class="scan-cta-btn" style="flex: 1; margin: 0; background: #475569;" onclick="simulateCapture('gallery')">
+            <span>🖼️ Chọn Ảnh</span>
+          </button>
+        </div>
+
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">⚡ Thử nghiệm mẫu hóa đơn nhanh (Demo Test):</div>
+        <div id="sampleCards"></div>
+      </div>
+    </div>
+
+    <!-- Review & Verification Modal Screen (Slide 41) -->
+    <div class="screen-overlay" id="reviewModal">
+      <div class="modal-nav">
+        <button class="back-btn" onclick="closeReviewModal()">←</button>
+        <span>Kiểm Tra & Xác Thực Hóa Đơn</span>
+      </div>
+      <div style="padding: 16px; overflow-y: auto;">
+        <div class="app-card" style="border-left: 4px solid var(--emerald-green); margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 700; font-size: 13px;">Kết quả nhận diện OCR</span>
+            <span style="background: rgba(16,185,129,0.15); color: var(--emerald-green); font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px;" id="reviewConfidence">92% tin cậy</span>
+          </div>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            Vui lòng kiểm tra và sửa lại các trường nếu thuật toán OCR nhận diện bị lệch.
+          </p>
+        </div>
+
+        <form id="reviewForm" onsubmit="commitExpense(event)">
+          <div class="form-group">
+            <label class="form-label">Tên Cửa Hàng / Đơn Vị Phát Hành</label>
+            <input type="text" class="form-input" id="inputMerchant" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tổng Tiền Thanh Toán (VNĐ)</label>
+            <input type="number" class="form-input" id="inputAmount" required min="1000">
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">Ngày Giao Dịch</label>
+              <input type="date" class="form-input" id="inputDate" required>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">Danh Mục Chi Tiêu</label>
+              <select class="form-select" id="inputCategory">
+                <option value="food">Ăn uống (F&B)</option>
+                <option value="shopping">Mua sắm & Siêu thị</option>
+                <option value="study">Học tập & Sách vở</option>
+                <option value="transport">Di chuyển & Xăng xe</option>
+                <option value="entertainment">Giải trí</option>
+                <option value="utilities">Sinh hoạt</option>
+                <option value="other">Khác</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ghi Chú Chi Tiêu</label>
+            <input type="text" class="form-input" id="inputNotes" value="Quét tự động qua On-Device OCR">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Văn bản gốc từ OCR (Raw Text)</label>
+            <div class="raw-box" id="rawOcrBox"></div>
+          </div>
+
+          <button type="submit" class="btn-submit">✅ Xác Nhận & Lưu Vào SQLite</button>
+          <button type="button" class="btn-cancel" onclick="closeReviewModal()">Hủy Bỏ</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <button class="nav-tab active" onclick="switchTab('dashboard')">
+        <span class="nav-icon">🏠</span>
+        <span>Trang chủ</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('history')">
+        <span class="nav-icon">📜</span>
+        <span>Lịch sử</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('analytics')">
+        <span class="nav-icon">📈</span>
+        <span>Phân tích</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // State Management (Emulating Riverpod 2 State & SQLite DB)
+    const CATEGORIES = {
+      food: { name: 'Ăn uống (F&B)', color: '#F97316', icon: '🍜' },
+      shopping: { name: 'Mua sắm & Siêu thị', color: '#EC4899', icon: '🛍️' },
+      study: { name: 'Học tập & Giáo trình', color: '#3B82F6', icon: '📚' },
+      transport: { name: 'Di chuyển & Xăng xe', color: '#10B981', icon: '🛵' },
+      entertainment: { name: 'Giải trí & Hoạt động', color: '#8B5CF6', icon: '🎮' },
+      utilities: { name: 'Sinh hoạt & Hóa đơn', color: '#EAB308', icon: '⚡' },
+      other: { name: 'Khác', color: '#6B7280', icon: '🧾' }
+    };
+
+    let expenses = [
+      { id: '1', merchant: 'Highlands Coffee - Khu V', amount: 122000, category: 'food', date: '2026-10-08', notes: 'Họp nhóm đồ án Đa nền tảng', ocr: true },
+      { id: '2', merchant: 'Nhà sách Fahasa Đà Nẵng', amount: 200000, category: 'study', date: '2026-10-07', notes: 'Giáo trình Flutter & Reanimated', ocr: true },
+      { id: '3', merchant: 'Căn tin Khu V - Đại học VKU', amount: 40000, category: 'food', date: '2026-10-06', notes: 'Cơm trưa sinh viên 23IT117', ocr: true },
+      { id: '4', merchant: 'Circle K Nam Kỳ Khởi Nghĩa', amount: 46000, category: 'shopping', date: '2026-10-05', notes: 'Ăn nhẹ ôn thi', ocr: true },
+      { id: '5', merchant: 'Cây xăng Petrolimex Hòa Hải', amount: 70000, category: 'transport', date: '2026-10-04', notes: 'Đổ xăng xe máy đi học VKU', ocr: true },
+      { id: '6', merchant: 'Rạp CGV Vincom Đà Nẵng', amount: 150000, category: 'entertainment', date: '2026-10-03', notes: 'Vé xem phim cuối tuần', ocr: true },
+    ];
+
+    const SAMPLES = [
+      {
+        title: 'Highlands Coffee - Khu V (122.000 đ)',
+        text: `HIGHLANDS COFFEE - KHU V VKU\\nĐịa chỉ: Đường Nam Kỳ Khởi Nghĩa, Đà Nẵng\\nNgày: 08/10/2026 10:15\\n\\n1. Phin Sữa Đá (L) 39,000\\n2. Freeze Trà Xanh 55,000\\n3. Bánh Mì Que 19,000\\n\\nCộng tiền hàng: 113,000\\nThuế VAT (8%): 9,040\\nTỔNG CỘNG: 122,000 đ`
+      },
+      {
+        title: 'Căn tin Khu V - VKU (40.000 đ)',
+        text: `CĂN TIN KHU V - ĐẠI HỌC VKU\\nNgày: 07/10/2026 11:45\\nKhách: SV 23IT117\\n\\n1. Cơm gà mắm 30,000\\n2. Nước mía 7,000\\n3. Canh thêm 3,000\\n\\nTỔNG TIỀN: 40,000 đ`
+      },
+      {
+        title: 'Nhà sách Fahasa (200.000 đ)',
+        text: `NHÀ SÁCH FAHASA ĐÀ NẴNG\\nNgày: 05/10/2026\\n1. Giáo trình Di động Đa nền tảng 145,000\\n2. Sổ tay B5 28,000\\n3. Bút highlight 42,000\\n\\nTổng cộng: 215,000\\nChiết khấu SV: -15,000\\nTHANH TOÁN: 200,000 VNĐ`
+      }
+    ];
+
+    // Regex Parser Engine (Slide Week 8 Slide 42)
+    function parseReceipt(rawText) {
+      const clean = rawText.replace(/\\n/g, '\n');
+      const lines = clean.split('\n').map(l => l.trim()).filter(l => l);
+
+      // Extract Total
+      let total = null;
+      const keyRegex = /(tổng cộng|tổng tiền|thanh toán|cộng tiền hàng|total|amount due)/i;
+      const numRegex = /[\d]{1,3}(?:[.,]\d{3})*(?:\.\d{2})?|\b\d{4,9}\b/g;
+
+      for (let i = lines.length - 1; i >= 0; i--) {
+        if (keyRegex.test(lines[i])) {
+          const matches = lines[i].match(numRegex);
+          if (matches) {
+            const rawNum = matches[matches.length - 1].replace(/[.,]/g, '');
+            total = parseFloat(rawNum);
+            if (total >= 1000) break;
+          }
+        }
+      }
+
+      if (!total) {
+        // Fallback max
+        for (let l of lines) {
+          const ms = l.match(numRegex);
+          if (ms) {
+            for (let m of ms) {
+              const val = parseFloat(m.replace(/[.,]/g, ''));
+              if (val > (total || 0) && val < 50000000) total = val;
+            }
+          }
+        }
+      }
+
+      // Extract Date
+      let date = '2026-10-08';
+      const dateMatch = clean.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
+      if (dateMatch) {
+        const d = dateMatch[1].padStart(2, '0');
+        const m = dateMatch[2].padStart(2, '0');
+        const y = dateMatch[3];
+        date = `${y}-${m}-${d}`;
+      }
+
+      // Extract Merchant
+      let merchant = 'Cửa hàng';
+      const known = ['Highlands Coffee', 'Căn tin Khu V', 'Fahasa', 'Circle K', 'WinMart', 'CGV'];
+      for (let k of known) {
+        if (clean.toLowerCase().includes(k.toLowerCase())) {
+          merchant = k;
+          break;
+        }
+      }
+      if (merchant === 'Cửa hàng' && lines.length > 0) merchant = lines[0];
+
+      // Guess Category
+      let cat = 'food';
+      if (/fahasa|sách|giáo trình|vku/i.test(clean)) cat = 'study';
+      else if (/circle|siêu thị|mart/i.test(clean)) cat = 'shopping';
+      else if (/cgv|phim|game/i.test(clean)) cat = 'entertainment';
+      else if (/xăng|grab/i.test(clean)) cat = 'transport';
+
+      return { merchant, total, date, category: cat, raw: clean, confidence: 0.92 };
+    }
+
+    function formatVND(num) {
+      return new Intl.NumberFormat('vi-VN').format(Math.round(num)) + ' đ';
+    }
+
+    // Render Canvas Charts (CustomPainter implementation)
+    function renderDonutChart() {
+      const canvas = document.getElementById('donutCanvas');
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = 75;
+      const strokeWidth = 24;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Background track
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#334155' : '#E2E8F0';
+      ctx.lineWidth = strokeWidth;
+      ctx.stroke();
+
+      // Aggregate totals
+      const totals = {};
+      let totalSum = 0;
+      expenses.forEach(e => {
+        totals[e.category] = (totals[e.category] || 0) + e.amount;
+        totalSum += e.amount;
+      });
+
+      let startAngle = -Math.PI / 2;
+      const legendEl = document.getElementById('donutLegend');
+      legendEl.innerHTML = '';
+
+      Object.entries(totals).forEach(([catKey, val]) => {
+        const cat = CATEGORIES[catKey] || CATEGORIES.other;
+        const sweep = (val / totalSum) * (2 * Math.PI);
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle + sweep);
+        ctx.strokeStyle = cat.color;
+        ctx.lineWidth = strokeWidth;
+        ctx.stroke();
+
+        startAngle += sweep;
+
+        const pct = ((val / totalSum) * 100).toFixed(1);
+        legendEl.innerHTML += `
+          <div class="legend-item">
+            <span class="legend-dot" style="background: ${cat.color};"></span>
+            <span>${cat.name}: ${pct}%</span>
+          </div>
+        `;
+      });
+
+      // Center Text
+      ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#94A3B8' : '#64748B';
+      ctx.font = '500 11px Plus Jakarta Sans';
+      ctx.textAlign = 'center';
+      ctx.fillText('Tổng chi tiêu', centerX, centerY - 8);
+
+      ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#93C5FD' : '#1E3A5F';
+      ctx.font = '700 15px Plus Jakarta Sans';
+      ctx.fillText(formatVND(totalSum), centerX, centerY + 12);
+    }
+
+    function renderBarChart() {
+      const canvas = document.getElementById('barCanvas');
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+      const paddingBottom = 26;
+      const paddingTop = 20;
+      const chartHeight = height - paddingBottom - paddingTop;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // 7 days data
+      const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+      const values = [70000, 46000, 40000, 200000, 122000, 150000, 0];
+      const maxVal = Math.max(...values, 200000);
+
+      const slotWidth = width / 7;
+      const barWidth = slotWidth * 0.45;
+
+      // Draw Grid
+      ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#334155' : '#E2E8F0';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 3; i++) {
+        const y = paddingTop + chartHeight * (i / 3);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      // Draw Bars
+      values.forEach((v, i) => {
+        const barH = (v / maxVal) * chartHeight;
+        const x = i * slotWidth + (slotWidth - barWidth) / 2;
+        const y = paddingTop + chartHeight - barH;
+
+        // Bar Fill
+        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#60A5FA' : '#2563EB';
+        ctx.beginPath();
+        ctx.roundRect(x, y, barWidth, barH, [4, 4, 0, 0]);
+        ctx.fill();
+
+        // Label Day
+        ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#94A3B8' : '#64748B';
+        ctx.font = '600 10px Plus Jakarta Sans';
+        ctx.textAlign = 'center';
+        ctx.fillText(days[i], x + barWidth / 2, height - 8);
+
+        // Value text
+        if (v > 0) {
+          ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#93C5FD' : '#1E3A5F';
+          ctx.font = '700 9px Plus Jakarta Sans';
+          ctx.fillText(Math.round(v / 1000) + 'k', x + barWidth / 2, y - 6);
+        }
+      });
+    }
+
+    function renderTransactions() {
+      const listEl = document.getElementById('recentTransactionsList');
+      const fullListEl = document.getElementById('fullTransactionsList');
+      let total = 0;
+
+      const html = expenses.map(e => {
+        total += e.amount;
+        const cat = CATEGORIES[e.category] || CATEGORIES.other;
+        return `
+          <div class="expense-item-card" onclick="alert('${e.merchant}\\nSố tiền: ${formatVND(e.amount)}\\nNgày: ${e.date}\\nGhi chú: ${e.notes || ''}')">
+            <div class="cat-avatar" style="background: ${cat.color}20; color: ${cat.color};">
+              ${cat.icon}
+            </div>
+            <div class="expense-info">
+              <div class="expense-merchant">${e.merchant}</div>
+              <div class="expense-meta">
+                <span>${e.date}</span>
+                ${e.ocr ? '<span class="ocr-pill">OCR</span>' : ''}
+              </div>
+            </div>
+            <div class="expense-cost">
+              <div class="cost-num">${formatVND(e.amount)}</div>
+              <div class="cost-cat" style="color: ${cat.color};">${cat.name}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      listEl.innerHTML = html;
+      fullListEl.innerHTML = html;
+
+      document.getElementById('heroTotalDisplay').innerText = formatVND(total);
+      document.getElementById('receiptCountChip').innerText = `${expenses.length} hóa đơn`;
+
+      renderDonutChart();
+      renderBarChart();
+      renderRankings();
+    }
+
+    function renderRankings() {
+      const container = document.getElementById('rankingList');
+      const totals = {};
+      let totalSum = 0;
+      expenses.forEach(e => {
+        totals[e.category] = (totals[e.category] || 0) + e.amount;
+        totalSum += e.amount;
+      });
+
+      const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+      container.innerHTML = sorted.map(([k, v]) => {
+        const cat = CATEGORIES[k] || CATEGORIES.other;
+        const pct = ((v / totalSum) * 100).toFixed(1);
+        return `
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px;">
+              <span>${cat.icon} ${cat.name}</span>
+              <span>${formatVND(v)} (${pct}%)</span>
+            </div>
+            <div style="height: 6px; background: #E2E8F0; border-radius: 4px; overflow: hidden;">
+              <div style="height: 100%; width: ${pct}%; background: ${cat.color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Modal Controls
+    function openScanModal() {
+      document.getElementById('scanModal').classList.add('open');
+      const box = document.getElementById('sampleCards');
+      box.innerHTML = SAMPLES.map((s, idx) => `
+        <div class="expense-item-card" onclick="loadSample(${idx})">
+          <div class="cat-avatar" style="background: rgba(37,99,235,0.12); color: var(--electric-blue);">🧾</div>
+          <div class="expense-info">
+            <div class="expense-merchant">${s.title}</div>
+            <div class="expense-meta">Bấm để quét nhận dạng thử</div>
+          </div>
+          <div style="font-size: 14px;">➔</div>
+        </div>
+      `).join('');
+    }
+
+    function closeScanModal() {
+      document.getElementById('scanModal').classList.remove('open');
+    }
+
+    function openReviewModal(parsed) {
+      document.getElementById('reviewModal').classList.add('open');
+      document.getElementById('inputMerchant').value = parsed.merchant;
+      document.getElementById('inputAmount').value = parsed.total;
+      document.getElementById('inputDate').value = parsed.date;
+      document.getElementById('inputCategory').value = parsed.category;
+      document.getElementById('rawOcrBox').innerText = parsed.raw;
+      document.getElementById('reviewConfidence').innerText = `${Math.round(parsed.confidence * 100)}% tin cậy`;
+    }
+
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.remove('open');
+    }
+
+    function loadSample(idx) {
+      const sample = SAMPLES[idx];
+      closeScanModal();
+      const parsed = parseReceipt(sample.text);
+      openReviewModal(parsed);
+    }
+
+    function simulateCapture(type) {
+      closeScanModal();
+      const sample = SAMPLES[0];
+      const parsed = parseReceipt(sample.text);
+      openReviewModal(parsed);
+    }
+
+    function commitExpense(e) {
+      e.preventDefault();
+      const merchant = document.getElementById('inputMerchant').value;
+      const amount = parseFloat(document.getElementById('inputAmount').value);
+      const date = document.getElementById('inputDate').value;
+      const category = document.getElementById('inputCategory').value;
+      const notes = document.getElementById('inputNotes').value;
+
+      expenses.unshift({
+        id: Date.now().toString(),
+        merchant,
+        amount,
+        date,
+        category,
+        notes,
+        ocr: true
+      });
+
+      closeReviewModal();
+      renderTransactions();
+      alert(`✅ Đã lưu hóa đơn "${merchant}" (${formatVND(amount)}) vào cơ sở dữ liệu SQLite!`);
+    }
+
+    // Tabs
+    function switchTab(tab) {
+      document.getElementById('tabDashboard').style.display = tab === 'dashboard' ? 'block' : 'none';
+      document.getElementById('tabHistory').style.display = tab === 'history' ? 'block' : 'none';
+      document.getElementById('tabAnalytics').style.display = tab === 'analytics' ? 'block' : 'none';
+
+      document.querySelectorAll('.nav-tab').forEach((el, idx) => {
+        el.classList.toggle('active', (tab === 'dashboard' && idx === 0) || (tab === 'history' && idx === 1) || (tab === 'analytics' && idx === 2));
+      });
+
+      if (tab === 'dashboard') {
+        renderDonutChart();
+        renderBarChart();
+      }
+    }
+
+    // Theme Toggle
+    document.getElementById('themeBtn').onclick = () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      renderDonutChart();
+      renderBarChart();
+    };
+
+    document.getElementById('refreshBtn').onclick = () => {
+      renderTransactions();
+    };
+
+    // Filter Chips
+    const chipsContainer = document.getElementById('catFilterChips');
+    chipsContainer.innerHTML = `
+      <button class="nav-tab active" style="padding: 4px 10px; font-size: 11px;" onclick="filterCat(null, this)">Tất cả</button>
+      ${Object.entries(CATEGORIES).map(([k, v]) => `
+        <button class="nav-tab" style="padding: 4px 10px; font-size: 11px;" onclick="filterCat('${k}', this)">${v.name}</button>
+      `).join('')}
+    `;
+
+    let activeFilter = null;
+    function filterCat(cat, btn) {
+      activeFilter = cat;
+      document.querySelectorAll('#catFilterChips button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterExpenses();
+    }
+
+    function filterExpenses() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = expenses.filter(e => {
+        if (activeFilter && e.category !== activeFilter) return false;
+        if (q && !e.merchant.toLowerCase().includes(q) && !(e.notes || '').toLowerCase().includes(q)) return false;
+        return true;
+      });
+
+      const fullListEl = document.getElementById('fullTransactionsList');
+      if (filtered.length === 0) {
+        fullListEl.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">Không tìm thấy giao dịch nào</div>';
+        return;
+      }
+
+      fullListEl.innerHTML = filtered.map(e => {
+        const cat = CATEGORIES[e.category] || CATEGORIES.other;
+        return `
+          <div class="expense-item-card" onclick="alert('${e.merchant}\\nSố tiền: ${formatVND(e.amount)}\\nNgày: ${e.date}\\nGhi chú: ${e.notes || ''}')">
+            <div class="cat-avatar" style="background: ${cat.color}20; color: ${cat.color};">${cat.icon}</div>
+            <div class="expense-info">
+              <div class="expense-merchant">${e.merchant}</div>
+              <div class="expense-meta"><span>${e.date}</span></div>
+            </div>
+            <div class="expense-cost">
+              <div class="cost-num">${formatVND(e.amount)}</div>
+              <div class="cost-cat" style="color: ${cat.color};">${cat.name}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Init
+    renderTransactions();
+  </script>
+</body>
+</html>
